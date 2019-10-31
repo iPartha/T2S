@@ -10,9 +10,9 @@ class ConsumerMenuEntity {
 
     @PrimaryKey
     @ColumnInfo(name = DBConstants.CONSUMER_MENU.ID)
-    private var id : Int = 0
+    var id : Long = 0
 
     @ColumnInfo(name = DBConstants.CONSUMER_MENU.NAME)
-    private var name : String = ""
+    var name : String = ""
 
 }
