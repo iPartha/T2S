@@ -1,26 +1,26 @@
 package com.ipartha.t2s.networking
 
-import retrofit2.Response
 import com.ipartha.t2s.data.Result
+
 
 abstract class BaseDataSource {
 
-    protected suspend fun <T> getResult(call: suspend () -> Response<T>): Result<T> {
-        try {
-            val response = call()
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) return Result.success(body)
+    protected suspend fun <T> getResult(fetchData: suspend () -> T): Result<T> {
+        return try {
+            val response = fetchData()
+            if (response == null) {
+                error(" Empty response")
+            } else {
+                Result.success(response)
             }
-            return error(" ${response.code()} ${response.message()}")
-        } catch (e: Exception) {
-            return error(e.message ?: e.toString())
+
+        } catch (ex : Exception) {
+            error(ex.message ?: ex.toString())
         }
+
     }
 
     private fun <T> error(message: String): Result<T> {
-        //ToDo handle failure
-        //Timber.e(message)
         return Result.error("Network call has failed for a following reason: $message")
     }
 

@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
 import com.ipartha.t2s.mvvm.ConsumerMenuViewModel
 import com.ipartha.t2s.data.Result
+import com.ipartha.t2s.databinding.ActivityMainBinding
 import com.ipartha.t2s.mvvm.ConsumerMenuRepository
 import com.ipartha.t2s.mvvm.ConsumerMenuViewModelFactory
 import com.ipartha.t2s.networking.ConsumerAPI
@@ -23,10 +25,11 @@ import com.ipartha.t2s.roomdb.T2SRoomDB
 class MainActivity : AppCompatActivity() {
 
     lateinit var consumerMenuViewModel : ConsumerMenuViewModel
+    lateinit var mBinding  : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mBinding  = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
@@ -49,13 +52,13 @@ class MainActivity : AppCompatActivity() {
         consumerMenuViewModel.consumerMenu.observe(this, Observer { result ->
             when (result.status) {
                 Result.Status.SUCCESS -> {
-                    Log.i("Partha ", "Partha Success "+result)
+                    mBinding.progressBar.hide()
                 }
                 Result.Status.LOADING -> {
-                    Log.i("Partha ", "Partha Loading "+result)
+                    mBinding.progressBar.show()
                 }
                 Result.Status.ERROR -> {
-                    Log.i("Partha ", "Partha Error "+result)
+                    mBinding.progressBar.hide()
                 }
             }
         })

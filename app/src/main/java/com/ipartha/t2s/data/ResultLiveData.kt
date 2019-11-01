@@ -10,12 +10,13 @@ fun <T, A> resultLiveData(databaseQuery: () -> LiveData<T>,
                           saveCallResult: suspend (A) -> Unit): LiveData<Result<T>> =
     liveData(Dispatchers.IO) {
         emit(Result.loading<T>())
-        val source = databaseQuery.invoke().map { Result.success(it) }
-        emitSource(source)
+       val source = databaseQuery.invoke().map { Result.success(it) }
+        //emitSource(source)
 
         val responseStatus = networkCall.invoke()
         if (responseStatus.status == Result.Status.SUCCESS) {
             saveCallResult(responseStatus.data!!)
+            emit(Result.success(responseStatus.data as T))
         } else if (responseStatus.status == Result.Status.ERROR) {
             emit(Result.error<T>(responseStatus.message!!))
             emitSource(source)

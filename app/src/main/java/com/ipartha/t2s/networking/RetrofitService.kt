@@ -17,7 +17,6 @@ class RetrofitService {
        var interceptor = HttpLoggingInterceptor()
 
         private val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(interceptor.setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(Base64DecodingInterceptor.base64DecodingInterceptor)
             .build()
 

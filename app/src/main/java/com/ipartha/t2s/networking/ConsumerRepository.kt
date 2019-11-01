@@ -1,11 +1,5 @@
 package com.ipartha.t2s.networking
 
-import android.util.Log
-import com.ipartha.t2s.mvvm.ConsumerMenuModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 
 //object ConsumerRepository {
 //
