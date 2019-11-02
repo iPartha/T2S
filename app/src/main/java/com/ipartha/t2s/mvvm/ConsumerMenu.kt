@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
 data class ConsumerMenu(@PrimaryKey(autoGenerate = true)
                               @ColumnInfo(name = "row")
                               var row : Long = 0,
-                              @ColumnInfo(name = DBConstants.CONSUMER_MENU_ID)
-                              var id : Long = 0,
+                              @ColumnInfo(name = DBConstants.CONSUMER_MENU_PRICE)
+                              var price : Float = 0f,
                               @ColumnInfo(name = DBConstants.CONSUMER_MENU_NAME)
                               var name : String = "" )
