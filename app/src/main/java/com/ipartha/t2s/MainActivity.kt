@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -21,6 +20,15 @@ import com.ipartha.t2s.networking.ConsumerRemoteSource
 import com.ipartha.t2s.networking.RetrofitService
 import com.ipartha.t2s.roomdb.DBConstants
 import com.ipartha.t2s.roomdb.T2SRoomDB
+import com.ipartha.t2s.ui.ConsumerMenuAdapter
+import com.ipartha.t2s.ui.hide
+import com.ipartha.t2s.ui.show
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.ipartha.t2s.ui.MyRecyclerViewAdapter
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,9 +38,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding  = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        initView()
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+    private fun initView() {
 
         val localDB =
             Room.databaseBuilder(applicationContext, T2SRoomDB::class.java, DBConstants.DB_NAME)
@@ -44,8 +53,8 @@ class MainActivity : AppCompatActivity() {
         consumerMenuViewModel = ViewModelProviders.of(this,
             ConsumerMenuViewModelFactory(consumerMenuRepository)
         ).get(ConsumerMenuViewModel::class.java)
+
         observeConsumerMenu()
-        return super.onCreateView(name, context, attrs)
     }
 
     private fun observeConsumerMenu() {
@@ -53,12 +62,17 @@ class MainActivity : AppCompatActivity() {
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     mBinding.progressBar.hide()
+                    result.data?.let {
+                        val adapter = MyRecyclerViewAdapter(it)
+                        mBinding.recyclerView.adapter = adapter
+                    }
                 }
                 Result.Status.LOADING -> {
                     mBinding.progressBar.show()
                 }
                 Result.Status.ERROR -> {
                     mBinding.progressBar.hide()
+                    //Snackbar.make(binding.root, result.message!!, Snackbar.LENGTH_LONG).show()
                 }
             }
         })

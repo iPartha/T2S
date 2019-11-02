@@ -1,4 +1,4 @@
-package com.ipartha.t2s
+package com.ipartha.t2s.ui
 
 import android.view.View
 import android.widget.ProgressBar
