@@ -7,7 +7,7 @@
 
         <variable
             name="myAdapter"
-            type="com.ipartha.t2s.ui.MyRecyclerViewAdapter" />
+            type="com.ipartha.t2s.ui.ConsumerMenuAdapter" />
     </data>
 
     <FrameLayout
