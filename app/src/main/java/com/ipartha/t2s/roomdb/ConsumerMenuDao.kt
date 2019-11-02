@@ -12,5 +12,5 @@ interface ConsumerMenuDao {
     fun insertAll(menuOptionList : List<ConsumerMenu>)
 
     @Query("SELECT * FROM "+DBConstants.CONSUMER_MENU_TABLE_NAME)
-    fun getAll() : LiveData<List<ConsumerMenu>>
+    fun getAll() : List<ConsumerMenu>
 }
