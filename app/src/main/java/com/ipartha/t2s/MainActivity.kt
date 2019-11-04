@@ -35,13 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView(binding : ActivityMainBinding) {
 
-        val localDB =
-            Room.databaseBuilder(applicationContext, T2SRoomDB::class.java, DBConstants.DB_NAME)
-                .build()
-
-        val consumerAPI : ConsumerAPI = RetrofitService.createService(ConsumerAPI::class.java)
-        val consumerRemoteSource = ConsumerRemoteSource(consumerAPI)
-        val consumerMenuRepository = ConsumerMenuRepository(localDB.consumerMenuDao(), consumerRemoteSource)
+        val consumerMenuRepository = ConsumerMenuRepository(this)
         consumerMenuViewModel = ViewModelProviders.of(this,
             ConsumerMenuViewModelFactory(consumerMenuRepository)
         ).get(ConsumerMenuViewModel::class.java)
