@@ -3,6 +3,7 @@
 
 
 
-    <dimen name="margin">12dp</dimen>
+    <dimen name="margin">10dp</dimen>
+    <dimen name="row_gap">0dp</dimen>
 
 </resources>

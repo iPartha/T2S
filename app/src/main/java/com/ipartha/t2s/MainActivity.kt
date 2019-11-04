@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
+import com.google.android.material.snackbar.Snackbar
 import com.ipartha.t2s.mvvm.ConsumerMenuViewModel
 import com.ipartha.t2s.data.Result
 import com.ipartha.t2s.databinding.ActivityMainBinding
@@ -18,7 +19,6 @@ import com.ipartha.t2s.networking.RetrofitService
 import com.ipartha.t2s.roomdb.DBConstants
 import com.ipartha.t2s.roomdb.T2SRoomDB
 import com.ipartha.t2s.ui.ConsumerMenuAdapter
-import com.ipartha.t2s.ui.VerticalItemDecoration
 import com.ipartha.t2s.ui.hide
 import com.ipartha.t2s.ui.show
 
@@ -34,9 +34,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView(binding : ActivityMainBinding) {
-
-        binding.recyclerView.addItemDecoration(
-            VerticalItemDecoration(resources.getDimension(R.dimen.margin).toInt(), true) )
 
         val localDB =
             Room.databaseBuilder(applicationContext, T2SRoomDB::class.java, DBConstants.DB_NAME)
@@ -67,7 +64,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 Result.Status.ERROR -> {
                     binding.progressBar.hide()
-                    //Snackbar.make(binding.root, result.message!!, Snackbar.LENGTH_LONG).show()
+                    binding.errorMessage = result.message
+                    Snackbar.make(binding.root, result.message!!, Snackbar.LENGTH_LONG).show()
                 }
             }
         })

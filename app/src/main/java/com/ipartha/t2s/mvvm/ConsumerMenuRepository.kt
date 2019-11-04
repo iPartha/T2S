@@ -11,6 +11,4 @@ class ConsumerMenuRepository(private val dbDao: ConsumerMenuDao, private val rem
         networkCall = { remoteSource.fetchData() },
         saveCallResult = { dbDao.insertAll(it) })
 
-
-
 }
