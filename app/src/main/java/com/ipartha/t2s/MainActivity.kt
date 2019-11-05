@@ -3,21 +3,15 @@ package com.ipartha.t2s
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.room.Room
-import com.google.android.material.snackbar.Snackbar
 import com.ipartha.t2s.mvvm.ConsumerMenuViewModel
 import com.ipartha.t2s.data.Result
 import com.ipartha.t2s.databinding.ActivityMainBinding
 import com.ipartha.t2s.mvvm.ConsumerMenuRepository
 import com.ipartha.t2s.mvvm.ConsumerMenuViewModelFactory
-import com.ipartha.t2s.networking.ConsumerAPI
-import com.ipartha.t2s.networking.ConsumerRemoteSource
-import com.ipartha.t2s.networking.RetrofitService
-import com.ipartha.t2s.roomdb.DBConstants
-import com.ipartha.t2s.roomdb.T2SRoomDB
 import com.ipartha.t2s.ui.ConsumerMenuAdapter
 import com.ipartha.t2s.ui.hide
 import com.ipartha.t2s.ui.show
@@ -26,6 +20,7 @@ import com.ipartha.t2s.ui.show
 class MainActivity : AppCompatActivity() {
 
     lateinit var consumerMenuViewModel : ConsumerMenuViewModel
+    lateinit var mErrorLayout : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         ).get(ConsumerMenuViewModel::class.java)
 
         observeConsumerMenu(binding)
+        consumerMenuViewModel.fetchConsumerMenu()
+
+        binding.listener = retryClick
+        mErrorLayout = binding.errorLayout.root
     }
 
     private fun observeConsumerMenu(binding : ActivityMainBinding) {
@@ -58,10 +57,15 @@ class MainActivity : AppCompatActivity() {
                 }
                 Result.Status.ERROR -> {
                     binding.progressBar.hide()
+                    mErrorLayout.show()
                     binding.errorMessage = result.message
-                    Snackbar.make(binding.root, result.message!!, Snackbar.LENGTH_LONG).show()
                 }
             }
         })
+    }
+
+    private var retryClick = View.OnClickListener {
+        mErrorLayout.hide()
+        consumerMenuViewModel.refreshConsumerMenu()
     }
 }

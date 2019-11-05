@@ -19,7 +19,7 @@ class ConsumerMenuRepository(applicationContext : Context) {
     private val consumerAPI : ConsumerAPI = RetrofitService.createService(ConsumerAPI::class.java)
     private val remoteSource = ConsumerRemoteSource(consumerAPI)
 
-    val consumerMenu = resultLiveData(
+    suspend fun getConsumerMenu() = resultLiveData(
         databaseQuery = { dbDao.getAll() },
         networkCall = { remoteSource.fetchData() },
         saveCallResult = { dbDao.insertAll(it) })

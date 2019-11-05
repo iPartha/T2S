@@ -13,6 +13,12 @@
         <variable
             name="errorMessage"
             type="String" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+
+
     </data>
 
     <FrameLayout
@@ -34,6 +40,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             tools:visibility="visible"/>
+
+        <include layout="@layout/error_layout"
+            android:id="@+id/errorLayout"
+            android:visibility="gone"
+            bind:errorMessage = "@{errorMessage}"
+            bind:listener = "@{listener}"
+        />
 
     </FrameLayout>
 
