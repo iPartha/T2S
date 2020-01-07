@@ -1,7 +1,5 @@
 package com.ipartha.t2s.mvvm
 
-import com.ipartha.t2s.roomdb.DBConstants
-
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

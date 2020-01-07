@@ -6,8 +6,6 @@ import com.ipartha.t2s.data.resultLiveData
 import com.ipartha.t2s.networking.ConsumerAPI
 import com.ipartha.t2s.networking.ConsumerRemoteSource
 import com.ipartha.t2s.networking.RetrofitService
-import com.ipartha.t2s.roomdb.DBConstants
-import com.ipartha.t2s.roomdb.T2SRoomDB
 
 class ConsumerMenuRepository(applicationContext : Context) {
 
